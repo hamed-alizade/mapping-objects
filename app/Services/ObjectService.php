@@ -45,4 +45,29 @@ class ObjectService
         }
         return 'xml';
     }
+
+    /**
+     * map data keys to newKeys
+     * @param array $data
+     * @param array $newKeys
+     * @return array
+     */
+    public static function map(array $data, array $newKeys)
+    {
+        foreach ($data as $key => $value) {
+            if(is_array($value) && ! empty($value)) {
+                if (is_array($newKeys[$key])) {
+                    $data[$key] = self::map($value, $newKeys[$key]);
+                    $data = array_merge($data, $data[$key]);
+                }
+                unset($data[$key]);
+            } else {
+                if (isset($newKeys[$key]) && $key != $newKeys[$key]) {
+                    $data[$newKeys[$key]] = ! empty($value) ? $value : null;
+                    unset($data[$key]);
+                }
+            }
+        }
+        return $data;
+    }
 }

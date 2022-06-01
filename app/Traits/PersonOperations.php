@@ -22,7 +22,13 @@ trait PersonOperations
             $response = Http::get($url);
 
             $format = ObjectService::detectResponseFormat($response);
-            return $format;
+
+            $object = App::make('object', ['object' => $response])->driver($format)->toArray()['data'];
+            $corresponding = App::make('object', ['object' => config('corresponding')])->driver('yaml')->toArray();
+
+            return array_map(function ($item) use ($corresponding) {
+                return ObjectService::map($item, $corresponding);
+            }, $object);
         }
         catch (\Exception $exception) {
             Log::error($exception->getCode() . ': ' . $exception->getMessage());
