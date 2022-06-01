@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Person;
 use App\Traits\PersonOperations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -21,6 +22,10 @@ class PersonController extends Controller
     {
         $data = self::getData(self::URL);
 
-        return $data;
+        if ($data === false) return response()->json(['message' => 'Data not stored!']);
+        foreach($data as $item) {
+            Person::create($item);
+        }
+        return response()->json(['data' => $data, 'message' => 'Stored Data successfully.']);
     }
 }
