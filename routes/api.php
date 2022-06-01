@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PersonController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('user/json', [UserController::class, 'indexJson']);
 Route::get('user/xml', [UserController::class, 'indexXml']);
+
+Route::get('person/store/api', [PersonController::class, 'store']);
