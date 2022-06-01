@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Person extends Model
 {
     use HasFactory;
 
@@ -23,4 +22,5 @@ class User extends Model
         'email',
     ];
 
+    protected $table = 'persons';
 }
